@@ -12,11 +12,31 @@ namespace Trender
     }
     public class ServiceLocator : IServiceLocator
     {
+
+        private static ServiceLocator instance = null;
+
+        private static readonly object LockObject = new object();
+        public static ServiceLocator Instance
+        {
+            get
+            {
+                lock (LockObject)
+                {
+                    if (instance==null)
+                    {
+                        instance = new ServiceLocator();
+                    }
+                }
+                return instance;
+            }
+        }
+
+
         // map that contains pairs of interfaces and
         // references to concrete implementations
         private IDictionary<object, object> services;
 
-        public ServiceLocator()
+        private ServiceLocator()
         {
             services = new Dictionary<object, object>();
 
@@ -24,7 +44,7 @@ namespace Trender
             this.services.Add(typeof(iTrenderMtApiService), new MtAPIFacade());
             this.services.Add(typeof(iTrenderDowJonesService), new DowJonesFacade());
             this.services.Add(typeof(iTrenderTaskHandler), new TrenderTaskHandler());
-            this.services.Add(typeof(iTrenderTask), new TrenderDowJonesTask(new ServiceLocator().GetService<iTrenderMtApiService>(), new ServiceLocator().GetService<iTrenderDowJonesService>()));
+            this.services.Add(typeof(iTrenderTask), new TrenderDowJonesTask(new MtAPIFacade(), new DowJonesFacade()));
         }
 
         public T GetService<T>()

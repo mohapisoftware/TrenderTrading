@@ -10,11 +10,10 @@ namespace TrenderConsole
     {
         static  void Main(string[] args)
         {
-            ServiceLocator serviceLocator = new ServiceLocator();
 
-            iTrenderTaskHandler taskHandler = serviceLocator.GetService<iTrenderTaskHandler>();
+            iTrenderTaskHandler taskHandler = ServiceLocator.Instance.GetService<iTrenderTaskHandler>();
 
-            iTrenderTask task = serviceLocator.GetService<iTrenderTask>();
+            iTrenderTask task = ServiceLocator.Instance.GetService<iTrenderTask>();
 
             taskHandler.RegisterTask(task);
 
