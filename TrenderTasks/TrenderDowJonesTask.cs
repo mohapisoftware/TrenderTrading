@@ -6,7 +6,24 @@ using System.Threading.Tasks;
 
 namespace Trender
 {
-    public class TrenderDowJonesTask : iTrenderTask
+    public abstract class TrenderDowJonesBaseTask : iTrenderTask
+    {
+        public virtual Task<bool> ExcecuteTask(int TaskID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual bool IsTaskRunning()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Task<bool> RemoveTask(int TaskID)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    public class TrenderDowJonesTask : TrenderDowJonesBaseTask
     {
         private iTrenderDowJonesService _TrenderDowJonesService;
         private iTrenderMtApiService _TrenderMtApiService;
@@ -19,7 +36,7 @@ namespace Trender
             this._TrenderDowJonesService = TrenderDowJonesService;
 
         }
-        public async Task<bool> ExcecuteTask(int TaskID)
+        public async override Task<bool> ExcecuteTask(int TaskID)
         {
             enableTrading = true;
             isTaskRunning = true;
@@ -58,7 +75,7 @@ namespace Trender
             return false;
         }
 
-        public async Task<bool> RemoveTask(int TaskID)
+        public async override Task<bool> RemoveTask(int TaskID)
         {
             await _TrenderMtApiService.Disconnect();
 
@@ -67,7 +84,7 @@ namespace Trender
             return false;
         }
 
-        public bool IsTaskRunning()
+        public override bool IsTaskRunning()
         {
             return isTaskRunning;
         }

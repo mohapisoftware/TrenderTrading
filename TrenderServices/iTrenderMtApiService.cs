@@ -10,10 +10,10 @@ namespace Trender
     {
         Task<Boolean> Connect();
 
-        Task<int> OpBuy();
+        Task<int> OpBuy(string symbol, double volume, int slippage);
 
         Task<int> CloseTrade(int tradeID);
-        Task<int> OpSell();
+        Task<int> OpSell(string symbol, double volume, int slippage);
 
         Task<TrenderConnectionState> GetConnectionState();
 

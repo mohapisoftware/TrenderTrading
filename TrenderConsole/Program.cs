@@ -13,7 +13,7 @@ namespace TrenderConsole
 
             iTrenderTaskHandler taskHandler = ServiceLocator.Instance.GetService<iTrenderTaskHandler>();
 
-            iTrenderTask task = ServiceLocator.Instance.GetService<iTrenderTask>();
+            iTrenderTask task = ServiceLocator.Instance.GetService<TrenderDowJonesBaseTask>();
 
             taskHandler.RegisterTask(task);
 

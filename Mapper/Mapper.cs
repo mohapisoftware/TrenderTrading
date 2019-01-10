@@ -17,7 +17,7 @@ namespace Trender
 
                 if (t == "iTrenderMtApiService")
                 {
-                return new MtAPIFacade();
+                return new MtAPIFacade("127.0.0.1", 1433);
             }
 
                 if (t == "iTrenderDowJonesService")
