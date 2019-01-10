@@ -83,5 +83,21 @@ namespace TrenderFacade
 
             return Task.FromResult(orderID);
         }
+
+       
+
+        public Task<int> OpBuy(string symbol, double volume, int slippage,double stoploss,double takeprofit)
+        {
+            int orderID = MtApiClient.OrderSendBuy(symbol, volume, slippage, stoploss, takeprofit);
+
+            return Task.FromResult(orderID);
+        }
+
+        public Task<int> OpSell(string symbol, double volume, int slippage, double stoploss, double takeprofit)
+        {
+            int orderID = MtApiClient.OrderSendSell(symbol, volume, slippage, stoploss, takeprofit);
+
+            return Task.FromResult(orderID);
+        }
     }
 }
