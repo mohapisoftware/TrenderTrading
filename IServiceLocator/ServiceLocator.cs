@@ -41,11 +41,15 @@ namespace Trender
             services = new Dictionary<object, object>();
 
             // fill the map
-            this.services.Add(typeof(iTrenderMtApiService), new MtAPIFacade("127.0.0.1",1433));
+            //this.services.Add(typeof(iTrenderMtApiService), new MtAPIFacade("127.0.0.1",1433));
             this.services.Add(typeof(iTrenderDowJonesService), new DowJonesFacade());
             this.services.Add(typeof(iTrenderTaskHandler), new TrenderTaskHandler());
             this.services.Add(typeof(iTradeService), new TradeFacade());
             this.services.Add(typeof(TrenderDowJonesBaseTask), new TrenderDowJonesTask(new MtAPIFacade("127.0.0.1", 1433), new DowJonesFacade(),new TradeFacade()));
+
+
+            //test mock objects
+            this.services.Add(typeof(iTrenderMtApiService), new TrenderMtApiServiceMock("127.0.0.1", 1433));
         }
 
         public T GetService<T>()

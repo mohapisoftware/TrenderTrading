@@ -60,6 +60,10 @@
       <Project>{8d5625dd-6a6c-4abd-b46d-363fdd577d0e}</Project>
       <Name>TrenderTasks</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TrenderTestObjects\TrenderTestObjects.csproj">
+      <Project>{80142188-5442-461a-8543-88a839445db9}</Project>
+      <Name>TrenderTestObjects</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
