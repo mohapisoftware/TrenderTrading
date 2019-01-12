@@ -13,6 +13,7 @@ namespace Trender
         private MtApiClient MtApiClient;
         private string host;
         private int port;
+        private Boolean TradeEnabled = false;
         private MtConnectionState connectionState = MtConnectionState.Disconnected;
 
         public MtAPIFacade(string host, int port)
@@ -22,6 +23,12 @@ namespace Trender
             this.port = port;
 
             MtApiClient.ConnectionStateChanged += MtApiClient_ConnectionStateChanged;
+            MtApiClient.OnLastTimeBar += MtApiClient_OnLastTimeBar;
+        }
+
+        private void MtApiClient_OnLastTimeBar(object sender, TimeBarArgs e)
+        {
+            TradeEnabled = true;
         }
 
         private void MtApiClient_ConnectionStateChanged(object sender, MtConnectionEventArgs e)
@@ -101,6 +108,17 @@ namespace Trender
         public Task<double> GetCurrentPrice()
         {
             return Task.FromResult(0.0);
+        }
+
+        public Task<bool> isTradingEnabled()
+        {
+            return Task.FromResult(TradeEnabled);
+        }
+
+        public Task<bool> DisableTrading()
+        {
+            TradeEnabled = false;
+            return Task.FromResult(true);
         }
     }
 }

@@ -45,25 +45,32 @@ namespace Trender
 
             while (_TrenderMtApiService.GetConnectionState().Result!= TrenderConnectionState.Failed )
             {
+                int tradeID = 0;
                 if (_TrenderMtApiService.GetConnectionState().Result == TrenderConnectionState.Connected)
                 {
-                    TrenderTradeOperation tradeOperation = await _TrenderDowJonesService.GetTradeOperation();
-                    TradeParameters tradeParameters = _TradeService.GetTradeParameters(tradeOperation, _TrenderMtApiService.GetCurrentPrice().Result);
-                    int tradeID = 0;
-
-                    switch (tradeOperation)
+                    if (_TrenderMtApiService.isTradingEnabled().Result)
                     {
-                        case TrenderTradeOperation.OpBuy:
-                            tradeID = await _TrenderMtApiService.OpBuy(tradeParameters.Symbol, tradeParameters.Volume, tradeParameters.Slippage);
-                            break;
-                        case TrenderTradeOperation.OpSell:
-                            tradeID = await _TrenderMtApiService.OpSell(tradeParameters.Symbol, tradeParameters.Volume, tradeParameters.Slippage, tradeParameters.StopLoss, tradeParameters.TakeProfit);
-                            break;
-                        case TrenderTradeOperation.OpNeutral:
-                            break;
-                        default:
-                            break;
+                        TrenderTradeOperation tradeOperation = await _TrenderDowJonesService.GetTradeOperation();
+                        TradeParameters tradeParameters = _TradeService.GetTradeParameters(tradeOperation, _TrenderMtApiService.GetCurrentPrice().Result);
+
+
+                        switch (tradeOperation)
+                        {
+                            case TrenderTradeOperation.OpBuy:
+                                tradeID = await _TrenderMtApiService.OpBuy(tradeParameters.Symbol, tradeParameters.Volume, tradeParameters.Slippage);
+                                break;
+                            case TrenderTradeOperation.OpSell:
+                                tradeID = await _TrenderMtApiService.OpSell(tradeParameters.Symbol, tradeParameters.Volume, tradeParameters.Slippage, tradeParameters.StopLoss, tradeParameters.TakeProfit);
+                                break;
+                            case TrenderTradeOperation.OpNeutral:
+                                break;
+                            default:
+                                break;
+
+                        }
+                       await  _TrenderMtApiService.DisableTrading();
                     }
+                    
                 }
 
                 if (!enableTrading)

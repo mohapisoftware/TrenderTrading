@@ -55,10 +55,6 @@
       <Project>{3b7b745f-382a-4d89-af94-8f4a1ffd3819}</Project>
       <Name>IServiceLocator</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mapper\Mapper.csproj">
-      <Project>{82dcd426-00c1-449e-beea-0f41e30cecfe}</Project>
-      <Name>Mapper</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TrenderDomain\TrenderDomain.csproj">
       <Project>{5597376a-de2a-4d09-951e-fcfda72a55c9}</Project>
       <Name>TrenderDomain</Name>

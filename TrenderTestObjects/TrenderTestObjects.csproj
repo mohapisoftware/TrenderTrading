@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TradeServiceMock.cs" />
+    <Compile Include="TrenderDowJonesServiceMock.cs" />
     <Compile Include="TrenderMtApiServiceMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

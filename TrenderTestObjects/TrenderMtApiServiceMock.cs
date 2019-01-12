@@ -9,6 +9,7 @@ namespace Trender
     {
         private string host;
         private int port;
+        private Boolean TradeEnabled = true;
 
         public TrenderMtApiServiceMock(string host, int port)
         {
@@ -26,6 +27,12 @@ namespace Trender
             return Task.FromResult(true);
         }
 
+        public Task<bool> DisableTrading()
+        {
+            TradeEnabled = false;
+            return Task.FromResult(true);
+        }
+
         public Task<bool> Disconnect()
         {
             return Task.FromResult(true);
@@ -39,6 +46,11 @@ namespace Trender
         public Task<double> GetCurrentPrice()
         {
             return Task.FromResult(1.222338);
+        }
+
+        public Task<bool> isTradingEnabled()
+        {
+            return Task.FromResult(TradeEnabled);
         }
 
         public Task<int> OpBuy(string symbol, double volume, int slippage)
