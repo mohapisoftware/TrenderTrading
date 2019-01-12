@@ -20,4 +20,29 @@ namespace Trender
         Failed=3,
         Connected=4
     }
+
+    public class TradeParameters
+    {
+        public string Symbol { get; set; }
+        public double TakeProfit { get; set; }
+        public double StopLoss { get; set; }
+        public double Volume { get; set; }
+        public int Slippage { get; set; }
+
+        public TradeParameters(string Symbol, double Volume, int Slippage)
+        {
+            this.Symbol = Symbol;
+            this.Volume = Volume;
+            this.Slippage = Slippage;
+        }
+
+        public TradeParameters(string Symbol, double Volume, int Slippage, double TakeProfit, double StopLoss)
+        {
+            this.Symbol = Symbol;
+            this.Volume = Volume;
+            this.Slippage = Slippage;
+            this.TakeProfit = TakeProfit;
+            this.StopLoss = StopLoss;
+        }
+    }
 }

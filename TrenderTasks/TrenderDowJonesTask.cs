@@ -27,14 +27,15 @@ namespace Trender
     {
         private iTrenderDowJonesService _TrenderDowJonesService;
         private iTrenderMtApiService _TrenderMtApiService;
+        private iTradeService  _TradeService;
 
         private Boolean enableTrading=false;
         private Boolean isTaskRunning = false;
-        public TrenderDowJonesTask(iTrenderMtApiService TrenderMtApiService,iTrenderDowJonesService TrenderDowJonesService)
+        public TrenderDowJonesTask(iTrenderMtApiService TrenderMtApiService,iTrenderDowJonesService TrenderDowJonesService, iTradeService TradeService)
         {
             this._TrenderMtApiService = TrenderMtApiService;
             this._TrenderDowJonesService = TrenderDowJonesService;
-
+            this._TradeService = TradeService;
         }
         public async override Task<bool> ExcecuteTask(int TaskID)
         {
@@ -47,16 +48,16 @@ namespace Trender
                 if (_TrenderMtApiService.GetConnectionState().Result == TrenderConnectionState.Connected)
                 {
                     TrenderTradeOperation tradeOperation = await _TrenderDowJonesService.GetTradeOperation();
-
+                    TradeParameters tradeParameters = _TradeService.GetTradeParameters(tradeOperation, _TrenderMtApiService.GetCurrentPrice().Result);
                     int tradeID = 0;
 
                     switch (tradeOperation)
                     {
                         case TrenderTradeOperation.OpBuy:
-                            tradeID = await _TrenderMtApiService.OpBuy();
+                            tradeID = await _TrenderMtApiService.OpBuy(tradeParameters.Symbol, tradeParameters.Volume, tradeParameters.Slippage);
                             break;
                         case TrenderTradeOperation.OpSell:
-                            tradeID = await _TrenderMtApiService.OpSell();
+                            tradeID = await _TrenderMtApiService.OpSell(tradeParameters.Symbol, tradeParameters.Volume, tradeParameters.Slippage, tradeParameters.StopLoss, tradeParameters.TakeProfit);
                             break;
                         case TrenderTradeOperation.OpNeutral:
                             break;

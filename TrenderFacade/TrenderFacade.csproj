@@ -51,6 +51,7 @@
     <Compile Include="DowJonesFacade.cs" />
     <Compile Include="MtApiFacade.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TradeFacade.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TrenderDomain\TrenderDomain.csproj">

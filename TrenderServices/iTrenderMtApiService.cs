@@ -16,7 +16,7 @@ namespace Trender
         Task<int> OpSell(string symbol, double volume, int slippage);
         Task<int> OpSell(string symbol, double volume, int slippage, double stoploss, double takeprofit);
         Task<TrenderConnectionState> GetConnectionState();
-
+        Task<double> GetCurrentPrice();
         Task<Boolean> Disconnect();
     }
 }

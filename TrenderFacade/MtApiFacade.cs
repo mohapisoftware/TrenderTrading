@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using MtApi;
 using Trender;
 
-namespace TrenderFacade
+namespace Trender
 {
     public class MtAPIFacade : iTrenderMtApiService
     {
@@ -84,8 +84,6 @@ namespace TrenderFacade
             return Task.FromResult(orderID);
         }
 
-       
-
         public Task<int> OpBuy(string symbol, double volume, int slippage,double stoploss,double takeprofit)
         {
             int orderID = MtApiClient.OrderSendBuy(symbol, volume, slippage, stoploss, takeprofit);
@@ -98,6 +96,11 @@ namespace TrenderFacade
             int orderID = MtApiClient.OrderSendSell(symbol, volume, slippage, stoploss, takeprofit);
 
             return Task.FromResult(orderID);
+        }
+
+        public Task<double> GetCurrentPrice()
+        {
+            return Task.FromResult(0.0);
         }
     }
 }

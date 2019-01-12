@@ -44,7 +44,8 @@ namespace Trender
             this.services.Add(typeof(iTrenderMtApiService), new MtAPIFacade("127.0.0.1",1433));
             this.services.Add(typeof(iTrenderDowJonesService), new DowJonesFacade());
             this.services.Add(typeof(iTrenderTaskHandler), new TrenderTaskHandler());
-            this.services.Add(typeof(TrenderDowJonesBaseTask), new TrenderDowJonesTask(new MtAPIFacade("127.0.0.1", 1433), new DowJonesFacade()));
+            this.services.Add(typeof(iTradeService), new TradeFacade());
+            this.services.Add(typeof(TrenderDowJonesBaseTask), new TrenderDowJonesTask(new MtAPIFacade("127.0.0.1", 1433), new DowJonesFacade(),new TradeFacade()));
         }
 
         public T GetService<T>()
