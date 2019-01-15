@@ -50,8 +50,8 @@ namespace Trender
                 {
                     if (_TrenderMtApiService.isTradingEnabled().Result)
                     {
-                        TrenderTradeOperation tradeOperation = await _TrenderDowJonesService.GetTradeOperation();
-                        TradeParameters tradeParameters = _TradeService.GetTradeParameters(tradeOperation, _TrenderMtApiService.GetCurrentPrice().Result);
+                        TrenderTradeOperation tradeOperation = await _TrenderDowJonesService.GetTradeOperation(_TrenderMtApiService);
+                        TradeParameters tradeParameters = _TradeService.GetTradeParameters(tradeOperation, _TrenderMtApiService);
 
 
                         switch (tradeOperation)
@@ -62,7 +62,7 @@ namespace Trender
                             case TrenderTradeOperation.OpSell:
                                 tradeID = await _TrenderMtApiService.OpSell(tradeParameters.Symbol, tradeParameters.Volume, tradeParameters.Slippage, tradeParameters.StopLoss, tradeParameters.TakeProfit);
                                 break;
-                            case TrenderTradeOperation.OpNeutral:
+                            case TrenderTradeOperation.OpStayAside:
                                 break;
                             default:
                                 break;
@@ -70,7 +70,6 @@ namespace Trender
                         }
                        await  _TrenderMtApiService.DisableTrading();
                     }
-                    
                 }
 
                 if (!enableTrading)

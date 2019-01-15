@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Trender
 {
@@ -10,7 +12,7 @@ namespace Trender
     {
         OpBuy=1
             ,OpSell=2
-            ,OpNeutral=3
+            ,OpStayAside=3
     }
 
     public enum TrenderConnectionState
@@ -43,6 +45,32 @@ namespace Trender
             this.Slippage = Slippage;
             this.TakeProfit = TakeProfit;
             this.StopLoss = StopLoss;
+        }
+    }
+
+    public class CommonFunctions
+    {
+        public static T DeserializeObject<T>(string a_fileName)
+        {
+            XmlSerializer deserializer = new XmlSerializer(typeof(T));
+
+            TextReader reader = new StreamReader(a_fileName);
+
+            object obj = deserializer.Deserialize(reader);
+
+            reader.Close();
+
+            return (T)obj;
+        }
+
+        public static void SerializeObject<T>(object mqlRates, string a_fileName)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(T));
+
+            using (var stream = File.OpenWrite(a_fileName))
+            {
+                serializer.Serialize(stream, mqlRates);
+            }
         }
     }
 }

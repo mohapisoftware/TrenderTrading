@@ -120,5 +120,10 @@ namespace Trender
             TradeEnabled = false;
             return Task.FromResult(true);
         }
+
+        public Task<List<MqlRates>> GetRates()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

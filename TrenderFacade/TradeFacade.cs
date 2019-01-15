@@ -14,7 +14,7 @@ namespace Trender
 
         }
 
-        public TradeParameters GetTradeParameters(TrenderTradeOperation tradeOperation, double result)
+        public TradeParameters GetTradeParameters(TrenderTradeOperation tradeOperation, iTrenderMtApiService trenderMtApiService)
         {
             throw new NotImplementedException();
         }

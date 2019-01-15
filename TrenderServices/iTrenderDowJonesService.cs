@@ -8,7 +8,7 @@ namespace Trender
 {
     public interface iTrenderDowJonesService
     {
-        Task<TrenderTradeOperation> GetTradeOperation();
+        Task<TrenderTradeOperation> GetTradeOperation(iTrenderMtApiService trenderMtApiService);
     }
 
 }

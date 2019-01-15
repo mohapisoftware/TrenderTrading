@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MtApi;
+
 namespace Trender
 {
     public class TrenderMtApiServiceMock : iTrenderMtApiService
@@ -46,6 +48,11 @@ namespace Trender
         public Task<double> GetCurrentPrice()
         {
             return Task.FromResult(1.222338);
+        }
+
+        public Task<List<MqlRates>> GetRates()
+        {
+            return Task.FromResult(CommonFunctions.DeserializeObject<List<MqlRates>>(@"C:\MqlRates\PERIOD_M1_100"));
         }
 
         public Task<bool> isTradingEnabled()

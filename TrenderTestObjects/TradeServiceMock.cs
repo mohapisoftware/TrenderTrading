@@ -8,10 +8,9 @@ namespace Trender
 {
     public class TradeServiceMock : iTradeService
     {
-        public TradeParameters GetTradeParameters(TrenderTradeOperation tradeOperation, double result)
+        public TradeParameters GetTradeParameters(TrenderTradeOperation tradeOperation, iTrenderMtApiService trenderMtApiService)
         {
             return new TradeParameters("EURUSD", 1.1, 0);
-
         }
     }
 }

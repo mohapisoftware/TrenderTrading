@@ -9,9 +9,9 @@ namespace Trender
 {
     public class DowJonesFacade : iTrenderDowJonesService
     {
-        public Task<TrenderTradeOperation> GetTradeOperation()
+
+        public Task<TrenderTradeOperation> GetTradeOperation(iTrenderMtApiService trenderMtApiService)
         {
-            //dont trade candles older that 5 minutes
             throw new NotImplementedException();
         }
     }

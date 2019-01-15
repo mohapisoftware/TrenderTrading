@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using MtApi;
 namespace Trender
 {
     public interface iTrenderMtApiService
@@ -19,6 +19,7 @@ namespace Trender
         Task<double> GetCurrentPrice();
         Task<bool> isTradingEnabled();
         Task<bool> DisableTrading();
+        Task<List<MqlRates>> GetRates();
         Task<Boolean> Disconnect();
     }
 }

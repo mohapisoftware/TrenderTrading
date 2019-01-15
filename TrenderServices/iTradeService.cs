@@ -9,6 +9,6 @@ namespace Trender
 {
     public interface iTradeService
     {
-        TradeParameters GetTradeParameters(TrenderTradeOperation tradeOperation, double result);
+        TradeParameters GetTradeParameters(TrenderTradeOperation tradeOperation, iTrenderMtApiService trenderMtApiService);
     }
 }
