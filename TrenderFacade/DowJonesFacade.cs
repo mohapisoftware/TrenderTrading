@@ -16,7 +16,7 @@ namespace Trender
 
             if (!rates.Any())
             {
-                return TrenderTradeOperation.OpStayAside;
+                return Calculate(rates);
             }
             return Task.FromResult(TrenderTradeOperation.OpBuy).Result;
         }
@@ -48,6 +48,34 @@ namespace Trender
             {
                 return TrenderTradeOperation.OpStayAside;
             }
+
+            //high high, high glow
+            if (candle0== TradeOperation.OP_BUY)
+            {
+                if ((rates[0].High>= rates[1].High)&&(rates[0].Low >= rates[1].Low))
+                {
+                    return TrenderTradeOperation.OpBuy;
+                }
+                else
+                {
+                    return TrenderTradeOperation.OpStayAside;
+                }
+            }
+
+            //lower lows , lower high
+            if (candle0 == TradeOperation.OP_SELL)
+            {
+                if ((rates[0].High< rates[1].High)&&((rates[0].Low < rates[1].Low)))
+                {
+                    return TrenderTradeOperation.OpSell;
+                }
+                else
+                {
+                    return TrenderTradeOperation.OpStayAside;
+                }
+            }
+
+            return TrenderTradeOperation.OpStayAside;
         }
     }
 
