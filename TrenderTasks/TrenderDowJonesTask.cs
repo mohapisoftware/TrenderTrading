@@ -69,9 +69,11 @@ namespace Trender
                                 tradeID = await _TrenderMtApiService.OpBuy(tradeParameters.Symbol, tradeParameters.Volume, tradeParameters.Slippage);
                                 break;
                             case TrenderTradeOperation.OpSell:
-                                tradeID = await _TrenderMtApiService.OpSell(tradeParameters.Symbol, tradeParameters.Volume, tradeParameters.Slippage, tradeParameters.StopLoss, tradeParameters.TakeProfit);
+                                tradeID = await _TrenderMtApiService.OpSell(tradeParameters.Symbol, tradeParameters.Volume, tradeParameters.Slippage);
                                 break;
                             case TrenderTradeOperation.OpStayAside:
+                                var datestring = DateTime.Now.ToLongDateString() +" "+ DateTime.Now.ToLongTimeString();
+                                Console.WriteLine(datestring + " : No Trade:{0}", 0);
                                 break;
                             default:
                                 break;

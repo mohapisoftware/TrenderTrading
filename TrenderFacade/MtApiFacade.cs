@@ -79,15 +79,18 @@ namespace Trender
 
         public Task<int> OpBuy(string symbol, double volume, int slippage)
         {
+            
             int orderID =  _MtApiClient.OrderSendBuy(symbol, volume, slippage);
-
+            var datestring = DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString();
+            Console.WriteLine(datestring + " : OpBuy:{0}",orderID);
             return Task.FromResult(orderID);
         }
 
         public Task<int> OpSell(string symbol, double volume, int slippage)
         {
             int orderID = _MtApiClient.OrderSendSell(symbol, volume, slippage);
-
+            var datestring = DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString();
+            Console.WriteLine(datestring + " : OpSell:{0}", orderID);
             return Task.FromResult(orderID);
         }
 

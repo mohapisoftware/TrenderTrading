@@ -9,23 +9,24 @@ namespace Trender
 {
     public class DowJonesFacade : iTrenderDowJonesService
     {
-
+        int candle0index = 1;
+        int candle1index = 2;
         public async Task<TrenderTradeOperation> GetTradeOperation(iTrenderMtApiService trenderMtApiService, string symbol, ENUM_TIMEFRAMES timeframes, int startpos, int count)
         {
             List<MqlRates> rates = await trenderMtApiService.GetRates(symbol, timeframes, startpos, count);
 
             if (!rates.Any())
             {
-                return Calculate(rates);
+                return  TrenderTradeOperation.OpStayAside;
             }
-            return Task.FromResult(TrenderTradeOperation.OpBuy).Result;
+            return Task.FromResult(Calculate(rates)).Result;
         }
         private TrenderTradeOperation Calculate(List<MqlRates> rates)
         {
             //cnadles must have the same direction
             TradeOperation candle0 = TradeOperation.OP_BUYLIMIT;
             TradeOperation candle1 = TradeOperation.OP_BUYLIMIT;
-            if (rates[0].Open>= rates[0].Close)
+            if (rates[candle0index].Close > rates[candle0index].Open)
             {
                 candle0 = TradeOperation.OP_BUY;
             }
@@ -34,7 +35,7 @@ namespace Trender
                 candle0 = TradeOperation.OP_SELL;
             }
 
-            if (rates[1].Open >= rates[1].Close)
+            if (rates[candle1index].Close > rates[candle1index].Open)
             {
                 candle1 = TradeOperation.OP_BUY;
             }
@@ -46,18 +47,20 @@ namespace Trender
             // no trade if candles 
             if (candle0!= candle1)
             {
+                Console.WriteLine("Dow Jones: Candle directions differ.");
                 return TrenderTradeOperation.OpStayAside;
             }
 
             //high high, high glow
             if (candle0== TradeOperation.OP_BUY)
             {
-                if ((rates[0].High>= rates[1].High)&&(rates[0].Low >= rates[1].Low))
+                if ((rates[candle0index].High> rates[candle1index].High)&&(rates[candle0index].Low >= rates[candle1index].Low))
                 {
                     return TrenderTradeOperation.OpBuy;
                 }
                 else
                 {
+                    Console.WriteLine("Dow Jones: OP_BUY highhighhighlow condition not met");
                     return TrenderTradeOperation.OpStayAside;
                 }
             }
@@ -65,12 +68,13 @@ namespace Trender
             //lower lows , lower high
             if (candle0 == TradeOperation.OP_SELL)
             {
-                if ((rates[0].High< rates[1].High)&&((rates[0].Low < rates[1].Low)))
+                if ((rates[candle0index].High< rates[candle1index].High)&&((rates[candle0index].Low < rates[candle1index].Low)))
                 {
                     return TrenderTradeOperation.OpSell;
                 }
                 else
                 {
+                    Console.WriteLine("Dow Jones: OP_BUY lowlowlowhigh condition not met");
                     return TrenderTradeOperation.OpStayAside;
                 }
             }
