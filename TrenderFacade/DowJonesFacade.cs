@@ -10,9 +10,44 @@ namespace Trender
     public class DowJonesFacade : iTrenderDowJonesService
     {
 
-        public Task<TrenderTradeOperation> GetTradeOperation(iTrenderMtApiService trenderMtApiService)
+        public async Task<TrenderTradeOperation> GetTradeOperation(iTrenderMtApiService trenderMtApiService, string symbol, ENUM_TIMEFRAMES timeframes, int startpos, int count)
         {
-            throw new NotImplementedException();
+            List<MqlRates> rates = await trenderMtApiService.GetRates(symbol, timeframes, startpos, count);
+
+            if (!rates.Any())
+            {
+                return TrenderTradeOperation.OpStayAside;
+            }
+            return Task.FromResult(TrenderTradeOperation.OpBuy).Result;
+        }
+        private TrenderTradeOperation Calculate(List<MqlRates> rates)
+        {
+            //cnadles must have the same direction
+            TradeOperation candle0 = TradeOperation.OP_BUYLIMIT;
+            TradeOperation candle1 = TradeOperation.OP_BUYLIMIT;
+            if (rates[0].Open>= rates[0].Close)
+            {
+                candle0 = TradeOperation.OP_BUY;
+            }
+            else
+            {
+                candle0 = TradeOperation.OP_SELL;
+            }
+
+            if (rates[1].Open >= rates[1].Close)
+            {
+                candle1 = TradeOperation.OP_BUY;
+            }
+            else
+            {
+                candle1 = TradeOperation.OP_SELL;
+            }
+
+            // no trade if candles 
+            if (candle0!= candle1)
+            {
+                return TrenderTradeOperation.OpStayAside;
+            }
         }
     }
 

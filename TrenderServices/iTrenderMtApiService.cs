@@ -19,7 +19,7 @@ namespace Trender
         Task<double> GetCurrentPrice();
         Task<bool> isTradingEnabled();
         Task<bool> DisableTrading();
-        Task<List<MqlRates>> GetRates();
+        Task<List<MqlRates>> GetRates(string symbol, ENUM_TIMEFRAMES timeframes, int startpos, int count);
         Task<Boolean> Disconnect();
     }
 }

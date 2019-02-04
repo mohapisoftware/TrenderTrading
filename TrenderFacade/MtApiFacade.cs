@@ -10,7 +10,7 @@ namespace Trender
 {
     public class MtAPIFacade : iTrenderMtApiService
     {
-        private MtApiClient MtApiClient;
+        private MtApiClient _MtApiClient;
         private string host;
         private int port;
         private Boolean TradeEnabled = false;
@@ -18,12 +18,12 @@ namespace Trender
 
         public MtAPIFacade(string host, int port)
         {
-            this.MtApiClient = new MtApiClient();
+            this._MtApiClient = new MtApiClient();
             this.host = host;
             this.port = port;
 
-            MtApiClient.ConnectionStateChanged += MtApiClient_ConnectionStateChanged;
-            MtApiClient.OnLastTimeBar += MtApiClient_OnLastTimeBar;
+            _MtApiClient.ConnectionStateChanged += MtApiClient_ConnectionStateChanged;
+            _MtApiClient.OnLastTimeBar += MtApiClient_OnLastTimeBar;
         }
 
         private void MtApiClient_OnLastTimeBar(object sender, TimeBarArgs e)
@@ -43,13 +43,13 @@ namespace Trender
 
         public Task<bool> Connect()
         {
-            MtApiClient.BeginConnect(host, port);
+            _MtApiClient.BeginConnect(host, port);
             return Task.FromResult(true);
         }
 
         public Task<bool> Disconnect()
         {
-            MtApiClient.BeginDisconnect();
+            _MtApiClient.BeginDisconnect();
             return Task.FromResult(true);
         }
 
@@ -79,28 +79,28 @@ namespace Trender
 
         public Task<int> OpBuy(string symbol, double volume, int slippage)
         {
-            int orderID =  MtApiClient.OrderSendBuy(symbol, volume, slippage);
+            int orderID =  _MtApiClient.OrderSendBuy(symbol, volume, slippage);
 
             return Task.FromResult(orderID);
         }
 
         public Task<int> OpSell(string symbol, double volume, int slippage)
         {
-            int orderID = MtApiClient.OrderSendSell(symbol, volume, slippage);
+            int orderID = _MtApiClient.OrderSendSell(symbol, volume, slippage);
 
             return Task.FromResult(orderID);
         }
 
         public Task<int> OpBuy(string symbol, double volume, int slippage,double stoploss,double takeprofit)
         {
-            int orderID = MtApiClient.OrderSendBuy(symbol, volume, slippage, stoploss, takeprofit);
+            int orderID = _MtApiClient.OrderSendBuy(symbol, volume, slippage, stoploss, takeprofit);
 
             return Task.FromResult(orderID);
         }
 
         public Task<int> OpSell(string symbol, double volume, int slippage, double stoploss, double takeprofit)
         {
-            int orderID = MtApiClient.OrderSendSell(symbol, volume, slippage, stoploss, takeprofit);
+            int orderID = _MtApiClient.OrderSendSell(symbol, volume, slippage, stoploss, takeprofit);
 
             return Task.FromResult(orderID);
         }
@@ -121,9 +121,9 @@ namespace Trender
             return Task.FromResult(true);
         }
 
-        public Task<List<MqlRates>> GetRates()
+        public Task<List<MqlRates>> GetRates(string symbol, ENUM_TIMEFRAMES timeframes, int startpos, int count)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(_MtApiClient.CopyRates(symbol,timeframes,startpos,count));
         }
     }
 }

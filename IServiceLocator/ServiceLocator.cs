@@ -41,18 +41,18 @@ namespace Trender
             services = new Dictionary<object, object>();
 
             // fill the map
-            //this.services.Add(typeof(iTrenderMtApiService), new MtAPIFacade("127.0.0.1",1433));
-            //this.services.Add(typeof(iTrenderDowJonesService), new DowJonesFacade());
+            this.services.Add(typeof(iTrenderMtApiService), new MtAPIFacade("127.0.0.1",8222));
+            this.services.Add(typeof(iTrenderDowJonesService), new DowJonesFacade());
             this.services.Add(typeof(iTrenderTaskHandler), new TrenderTaskHandler());
-            //this.services.Add(typeof(iTradeService), new TradeFacade());
-            //this.services.Add(typeof(TrenderDowJonesBaseTask), new TrenderDowJonesTask(new MtAPIFacade("127.0.0.1", 1433), new DowJonesFacade(),new TradeFacade()));
+            this.services.Add(typeof(iTradeService), new TradeFacade());
+            this.services.Add(typeof(TrenderDowJonesBaseTask), new TrenderDowJonesTask(new MtAPIFacade("127.0.0.1", 8222), new DowJonesFacade(),new TradeFacade()));
 
 
             //test mock objects
-            this.services.Add(typeof(iTrenderMtApiService), new TrenderMtApiServiceMock("127.0.0.1", 1433));
-            this.services.Add(typeof(iTrenderDowJonesService), new TrenderDowJonesServiceMock());
-            this.services.Add(typeof(iTradeService), new TradeFacade());
-            this.services.Add(typeof(TrenderDowJonesBaseTask), new TrenderDowJonesTask(new TrenderMtApiServiceMock("127.0.0.1", 1433), new TrenderDowJonesServiceMock(), new TradeServiceMock()));
+            //this.services.Add(typeof(iTrenderMtApiService), new TrenderMtApiServiceMock("127.0.0.1", 8222));
+            //this.services.Add(typeof(iTrenderDowJonesService), new TrenderDowJonesServiceMock());
+            //this.services.Add(typeof(iTradeService), new TradeFacade());
+            //this.services.Add(typeof(TrenderDowJonesBaseTask), new TrenderDowJonesTask(new TrenderMtApiServiceMock("127.0.0.1", 1433), new TrenderDowJonesServiceMock(), new TradeServiceMock()));
         }
 
         public T GetService<T>()

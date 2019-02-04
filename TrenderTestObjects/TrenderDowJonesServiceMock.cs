@@ -9,9 +9,9 @@ namespace Trender
 {
     public   class TrenderDowJonesServiceMock : iTrenderDowJonesService
     {
-        public async Task<TrenderTradeOperation> GetTradeOperation(iTrenderMtApiService trenderMtApiService)
+        public async Task<TrenderTradeOperation> GetTradeOperation(iTrenderMtApiService trenderMtApiService, string symbol, ENUM_TIMEFRAMES timeframes, int startpos, int count)
         {
-            List<MqlRates> rates = await trenderMtApiService.GetRates();
+            List<MqlRates> rates = await trenderMtApiService.GetRates(symbol, timeframes, startpos, count);
 
             if (!rates.Any())
             {

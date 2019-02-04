@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MtApi;
 
 namespace Trender
 {
@@ -31,6 +32,14 @@ namespace Trender
 
         private Boolean enableTrading=false;
         private Boolean isTaskRunning = false;
+
+        //get from database
+        string symbol = "EURUSD";
+        ENUM_TIMEFRAMES timeframes = ENUM_TIMEFRAMES.PERIOD_M1;
+        int startpos=0;
+        int count=10;
+
+
         public TrenderDowJonesTask(iTrenderMtApiService TrenderMtApiService,iTrenderDowJonesService TrenderDowJonesService, iTradeService TradeService)
         {
             this._TrenderMtApiService = TrenderMtApiService;
@@ -50,7 +59,7 @@ namespace Trender
                 {
                     if (_TrenderMtApiService.isTradingEnabled().Result)
                     {
-                        TrenderTradeOperation tradeOperation = await _TrenderDowJonesService.GetTradeOperation(_TrenderMtApiService);
+                        TrenderTradeOperation tradeOperation = await _TrenderDowJonesService.GetTradeOperation(_TrenderMtApiService,symbol,timeframes,startpos,count);
                         TradeParameters tradeParameters = _TradeService.GetTradeParameters(tradeOperation, _TrenderMtApiService);
 
 
