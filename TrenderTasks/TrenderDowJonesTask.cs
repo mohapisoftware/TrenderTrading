@@ -107,7 +107,7 @@ namespace Trender
                         switch (tradeOperation)
                         {
                             case TrenderTradeOperation.OpBuy:
-                                var buy = _TrenderMtApiService.GetOrders().Result.First(s => s.Operation == TradeOperation.OP_BUY);
+                                var buy = _TrenderMtApiService.GetOrders().Result?.First(s => s.Operation == TradeOperation.OP_BUY);
                                 if (buy == null)
                                 {
                                     tradeID = await _TrenderMtApiService.OpBuy(tradeParameters.Symbol, tradeParameters.Volume, tradeParameters.Slippage, stoploss, takeprofit);
@@ -119,7 +119,7 @@ namespace Trender
                                 
                                 break;
                             case TrenderTradeOperation.OpSell:
-                                var sell = _TrenderMtApiService.GetOrders().Result.First(s => s.Operation == TradeOperation.OP_SELL);
+                                var sell = _TrenderMtApiService.GetOrders().Result?.First(s => s.Operation == TradeOperation.OP_SELL);
                                 if (sell == null)
                                 {
                                     tradeID = await _TrenderMtApiService.OpSell(tradeParameters.Symbol, tradeParameters.Volume, tradeParameters.Slippage, stoploss, takeprofit);
