@@ -50,6 +50,11 @@ namespace Trender
             return Task.FromResult(1.222338);
         }
 
+        public Task<List<MtOrder>> GetOrders()
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<List<MqlRates>> GetRates(string symbol, ENUM_TIMEFRAMES timeframes, int startpos, int count)
         {
             return Task.FromResult(CommonFunctions.DeserializeObject<List<MqlRates>>(@"C:\MqlRates\PERIOD_M1_100"));
