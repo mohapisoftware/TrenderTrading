@@ -124,6 +124,11 @@ namespace Trender
             return Task.FromResult(true);
         }
 
+        public Task<List<MtOrder>> GetOrders()
+        {
+            return Task.FromResult(_MtApiClient.GetOrders(OrderSelectSource.MODE_TRADES));
+        }
+
         public Task<List<MqlRates>> GetRates(string symbol, ENUM_TIMEFRAMES timeframes, int startpos, int count)
         {
             return Task.FromResult(_MtApiClient.CopyRates(symbol,timeframes,startpos,count));

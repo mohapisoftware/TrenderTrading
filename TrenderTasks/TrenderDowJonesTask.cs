@@ -59,6 +59,9 @@ namespace Trender
                 {
                     if (_TrenderMtApiService.isTradingEnabled().Result)
                     {
+                        //close qualifying orders
+                        CloseOrders();
+
                         TrenderTradeOperation tradeOperation = await _TrenderDowJonesService.GetTradeOperation(_TrenderMtApiService,symbol,timeframes,startpos,count);
                         TradeParameters tradeParameters = _TradeService.GetTradeParameters(tradeOperation, _TrenderMtApiService);
 
@@ -105,6 +108,29 @@ namespace Trender
         public override bool IsTaskRunning()
         {
             return isTaskRunning;
+        }
+
+        private async void CloseOrders()
+        {
+            List<MtOrder> orders = await _TrenderMtApiService.GetOrders();
+
+            foreach (var order in orders)
+            {
+                double profit = order.Profit;
+                double commision = order.Commission;
+
+                //if order is loosing close it
+                if (profit<0)
+                {
+                    await _TrenderMtApiService.CloseTrade(order.Ticket);
+                }
+
+                //if order is making profit after commision is deducted close it
+                if ((profit-commision)>0)
+                {
+                    await _TrenderMtApiService.CloseTrade(order.Ticket);
+                }
+            }
         }
     }
 }

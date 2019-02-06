@@ -20,6 +20,8 @@ namespace Trender
         Task<bool> isTradingEnabled();
         Task<bool> DisableTrading();
         Task<List<MqlRates>> GetRates(string symbol, ENUM_TIMEFRAMES timeframes, int startpos, int count);
+
+        Task<List<MtOrder>> GetOrders();
         Task<Boolean> Disconnect();
     }
 }
