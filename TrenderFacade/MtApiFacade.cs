@@ -138,5 +138,10 @@ namespace Trender
         {
             return Task.FromResult(_MtApiClient.iATR(symbol, (int)timeframes,period,shift));
         }
+
+        public Task<double> GetMA(string symbol, ENUM_TIMEFRAMES timeframes, int period, int mashift,int mamethod,int appliedprice,int shift)
+        {
+            return Task.FromResult(_MtApiClient.iMA(symbol, (int)timeframes, period, mashift,mamethod,appliedprice,shift));
+        }
     }
 }

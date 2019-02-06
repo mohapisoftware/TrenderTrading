@@ -65,6 +65,11 @@ namespace Trender
             throw new NotImplementedException();
         }
 
+        public Task<double> GetMA(string symbol, ENUM_TIMEFRAMES timeframes, int period, int mashift, int mamethod, int appliedprice, int shift)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<List<MtOrder>> GetOrders()
         {
             throw new NotImplementedException();

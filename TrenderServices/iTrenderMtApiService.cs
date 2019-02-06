@@ -22,6 +22,7 @@ namespace Trender
         Task<List<MqlRates>> GetRates(string symbol, ENUM_TIMEFRAMES timeframes, int startpos, int count);
         Task<double> GetATR(string symbol, ENUM_TIMEFRAMES timeframes, int period, int shift);
         Task<List<MtOrder>> GetOrders();
+        Task<double> GetMA(string symbol, ENUM_TIMEFRAMES timeframes, int period, int mashift, int mamethod, int appliedprice, int shift);
         Task<Boolean> Disconnect();
     }
 }

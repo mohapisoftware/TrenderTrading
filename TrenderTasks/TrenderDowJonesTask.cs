@@ -38,7 +38,11 @@ namespace Trender
         ENUM_TIMEFRAMES timeframes = ENUM_TIMEFRAMES.PERIOD_M1;
         int startpos=0;
         int count=10;
-
+        int mashift = 0;
+        int mamethod = 1;
+        int shift = 1;
+        int period = 14;
+        int appliedprice = 1;
 
         public TrenderDowJonesTask(iTrenderMtApiService TrenderMtApiService,iTrenderDowJonesService TrenderDowJonesService, iTradeService TradeService)
         {
@@ -59,38 +63,74 @@ namespace Trender
                 {
                     if (_TrenderMtApiService.isTradingEnabled().Result)
                     {
+                        var datestring = DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString();
+
                         TradeParameters tradeParameters = _TradeService.GetTradeParameters(_TrenderMtApiService);
                         //close qualifying orders
-                        CloseOrders(tradeParameters);
+                        //CloseOrders(tradeParameters);
 
                         TrenderTradeOperation tradeOperation = await _TrenderDowJonesService.GetTradeOperation(_TrenderMtApiService,symbol,timeframes,startpos,count);
 
                         double atr = _TrenderMtApiService.GetATR(symbol, timeframes, 14, 0).Result;
                         double currentprice = _TrenderMtApiService.GetCurrentPrice(symbol).Result;
+                        double ma = _TrenderMtApiService.GetMA(symbol, timeframes, period, mashift, mamethod, appliedprice, shift).Result;
                         double takeprofit = 0.0;
                         double stoploss = 0.0;
+                        TrenderTradeOperation maSentiment = TrenderTradeOperation.OpStayAside;
+
+                        if (ma< currentprice)
+                        {
+                            maSentiment = TrenderTradeOperation.OpBuy;
+                        }
+                        else
+                        {
+                            maSentiment = TrenderTradeOperation.OpSell;
+                        }
+                        if (tradeOperation!= maSentiment)
+                        {
+                            Console.WriteLine(datestring+" ,cannot trade against the MA/trend.");
+                            await _TrenderMtApiService.DisableTrading();
+                            continue;
+                        }
                         //calculate stop loss and take profit
                         if (tradeOperation == TrenderTradeOperation.OpBuy)
                         {
-                            takeprofit = currentprice + atr * 2;
+                            takeprofit = currentprice + atr*2 ;
                             stoploss = currentprice - atr;
                         }
                         else
                         {
-                            takeprofit = currentprice - atr * 2;
+                            takeprofit = currentprice - atr*2 ;
                             stoploss = currentprice + atr;
                         }
 
                         switch (tradeOperation)
                         {
                             case TrenderTradeOperation.OpBuy:
-                                tradeID = await _TrenderMtApiService.OpBuy(tradeParameters.Symbol, tradeParameters.Volume, tradeParameters.Slippage,stoploss,takeprofit);
+                                var buy = _TrenderMtApiService.GetOrders().Result.First(s => s.Operation == TradeOperation.OP_BUY);
+                                if (buy == null)
+                                {
+                                    tradeID = await _TrenderMtApiService.OpBuy(tradeParameters.Symbol, tradeParameters.Volume, tradeParameters.Slippage, stoploss, takeprofit);
+                                }
+                                else
+                                {
+                                    Console.WriteLine(datestring + " : cannot open more than 1 buy trade");
+                                }
+                                
                                 break;
                             case TrenderTradeOperation.OpSell:
-                                tradeID = await _TrenderMtApiService.OpSell(tradeParameters.Symbol, tradeParameters.Volume, tradeParameters.Slippage, stoploss, takeprofit);
+                                var sell = _TrenderMtApiService.GetOrders().Result.First(s => s.Operation == TradeOperation.OP_SELL);
+                                if (sell == null)
+                                {
+                                    tradeID = await _TrenderMtApiService.OpSell(tradeParameters.Symbol, tradeParameters.Volume, tradeParameters.Slippage, stoploss, takeprofit);
+                                }
+                                else
+                                {
+                                    Console.WriteLine(datestring + " : cannot open more than 1 sell trade");
+                                }
                                 break;
                             case TrenderTradeOperation.OpStayAside:
-                                var datestring = DateTime.Now.ToLongDateString() +" "+ DateTime.Now.ToLongTimeString();
+                                
                                 Console.WriteLine(datestring + " : No Trade:{0}", 0);
                                 break;
                             default:
