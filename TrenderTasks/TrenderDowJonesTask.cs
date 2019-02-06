@@ -59,11 +59,12 @@ namespace Trender
                 {
                     if (_TrenderMtApiService.isTradingEnabled().Result)
                     {
+                        TradeParameters tradeParameters = _TradeService.GetTradeParameters(_TrenderMtApiService);
                         //close qualifying orders
-                        CloseOrders();
+                        CloseOrders(tradeParameters);
 
                         TrenderTradeOperation tradeOperation = await _TrenderDowJonesService.GetTradeOperation(_TrenderMtApiService,symbol,timeframes,startpos,count);
-                        TradeParameters tradeParameters = _TradeService.GetTradeParameters(tradeOperation, _TrenderMtApiService);
+                        
 
 
                         switch (tradeOperation)
@@ -110,8 +111,9 @@ namespace Trender
             return isTaskRunning;
         }
 
-        private async void CloseOrders()
+        private async void CloseOrders(TradeParameters tradeparameters)
         {
+            var datestring = DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString();
             List<MtOrder> orders = await _TrenderMtApiService.GetOrders();
 
             foreach (var order in orders)
@@ -122,13 +124,15 @@ namespace Trender
                 //if order is loosing close it
                 if (profit<0)
                 {
-                    await _TrenderMtApiService.CloseTrade(order.Ticket);
+                    Console.WriteLine(datestring+":OrderID:{0} closed on loss of :{1}", order.Ticket, profit);
+                    await _TrenderMtApiService.CloseTrade(order.Ticket, tradeparameters.Slippage);
                 }
 
                 //if order is making profit after commision is deducted close it
                 if ((profit-commision)>0)
                 {
-                    await _TrenderMtApiService.CloseTrade(order.Ticket);
+                    Console.WriteLine(datestring + ":OrderID:{0} closed on gross profit of :{1},Net profit of {2}", order.Ticket, profit, profit-commision);
+                    await _TrenderMtApiService.CloseTrade(order.Ticket, tradeparameters.Slippage);
                 }
             }
         }

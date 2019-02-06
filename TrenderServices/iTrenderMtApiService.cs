@@ -12,7 +12,7 @@ namespace Trender
 
         Task<int> OpBuy(string symbol, double volume, int slippage);
         Task<int> OpBuy(string symbol, double volume, int slippage, double stoploss, double takeprofit);
-        Task<int> CloseTrade(int tradeID);
+        Task<Boolean> CloseTrade(int tradeID, int slippage);
         Task<int> OpSell(string symbol, double volume, int slippage);
         Task<int> OpSell(string symbol, double volume, int slippage, double stoploss, double takeprofit);
         Task<TrenderConnectionState> GetConnectionState();

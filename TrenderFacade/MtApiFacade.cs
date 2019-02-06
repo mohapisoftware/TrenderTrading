@@ -36,9 +36,9 @@ namespace Trender
             connectionState = e.Status;
         }
 
-        public Task<int> CloseTrade(int tradeID)
+        public Task<Boolean> CloseTrade(int tradeID,int slippage)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(_MtApiClient.OrderClose(tradeID, slippage));
         }
 
         public Task<bool> Connect()

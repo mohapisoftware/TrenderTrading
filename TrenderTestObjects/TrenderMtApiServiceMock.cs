@@ -24,6 +24,11 @@ namespace Trender
             throw new NotImplementedException();
         }
 
+        public Task<bool> CloseTrade(int tradeID, int slippage)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<bool> Connect()
         {
             return Task.FromResult(true);

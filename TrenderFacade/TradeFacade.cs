@@ -14,7 +14,7 @@ namespace Trender
 
         }
 
-        public TradeParameters GetTradeParameters(TrenderTradeOperation tradeOperation, iTrenderMtApiService trenderMtApiService)
+        public TradeParameters GetTradeParameters( iTrenderMtApiService trenderMtApiService)
         {
             return new TradeParameters("EURUSD",0.1,0)
             {
