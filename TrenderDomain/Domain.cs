@@ -38,6 +38,8 @@ namespace Trender
             this.Slippage = Slippage;
         }
 
+
+
         public TradeParameters(string Symbol, double Volume, int Slippage, double TakeProfit, double StopLoss)
         {
             this.Symbol = Symbol;

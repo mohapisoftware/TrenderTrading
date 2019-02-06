@@ -16,7 +16,11 @@ namespace Trender
 
         public TradeParameters GetTradeParameters( iTrenderMtApiService trenderMtApiService)
         {
-            return new TradeParameters("EURUSD",0.1,0)
+            double currentprice = trenderMtApiService.GetCurrentPrice("EURUSD").Result;
+            double atr = trenderMtApiService.GetATR("EURUSD", MtApi.ENUM_TIMEFRAMES.PERIOD_M1, 14, 0).Result;
+
+            double take
+            return new TradeParameters("EURUSD",0.2,0)
             {
                  
             };

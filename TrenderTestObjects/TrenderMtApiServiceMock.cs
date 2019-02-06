@@ -45,6 +45,11 @@ namespace Trender
             return Task.FromResult(true);
         }
 
+        public Task<double> GetATR(string symbol, ENUM_TIMEFRAMES timeframes, int period, int shift)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<Trender.TrenderConnectionState> GetConnectionState()
         {
             return Task.FromResult(TrenderConnectionState.Connected);
@@ -53,6 +58,11 @@ namespace Trender
         public Task<double> GetCurrentPrice()
         {
             return Task.FromResult(1.222338);
+        }
+
+        public Task<double> GetCurrentPrice(string symbol)
+        {
+            throw new NotImplementedException();
         }
 
         public Task<List<MtOrder>> GetOrders()

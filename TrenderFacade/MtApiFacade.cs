@@ -108,9 +108,9 @@ namespace Trender
             return Task.FromResult(orderID);
         }
 
-        public Task<double> GetCurrentPrice()
+        public Task<double> GetCurrentPrice(string symbol)
         {
-            return Task.FromResult(0.0);
+            return Task.FromResult(_MtApiClient.MarketInfo(symbol, MarketInfoModeType.MODE_BID));
         }
 
         public Task<bool> isTradingEnabled()
@@ -132,6 +132,11 @@ namespace Trender
         public Task<List<MqlRates>> GetRates(string symbol, ENUM_TIMEFRAMES timeframes, int startpos, int count)
         {
             return Task.FromResult(_MtApiClient.CopyRates(symbol,timeframes,startpos,count));
+        }
+
+        public Task<double> GetATR(string symbol, ENUM_TIMEFRAMES timeframes,int period,int shift)
+        {
+            return Task.FromResult(_MtApiClient.iATR(symbol, (int)timeframes,period,shift));
         }
     }
 }

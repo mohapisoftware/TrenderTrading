@@ -64,16 +64,30 @@ namespace Trender
                         CloseOrders(tradeParameters);
 
                         TrenderTradeOperation tradeOperation = await _TrenderDowJonesService.GetTradeOperation(_TrenderMtApiService,symbol,timeframes,startpos,count);
-                        
 
+                        double atr = _TrenderMtApiService.GetATR(symbol, timeframes, 14, 0).Result;
+                        double currentprice = _TrenderMtApiService.GetCurrentPrice(symbol).Result;
+                        double takeprofit = 0.0;
+                        double stoploss = 0.0;
+                        //calculate stop loss and take profit
+                        if (tradeOperation == TrenderTradeOperation.OpBuy)
+                        {
+                            takeprofit = currentprice + atr * 2;
+                            stoploss = currentprice - atr;
+                        }
+                        else
+                        {
+                            takeprofit = currentprice - atr * 2;
+                            stoploss = currentprice + atr;
+                        }
 
                         switch (tradeOperation)
                         {
                             case TrenderTradeOperation.OpBuy:
-                                tradeID = await _TrenderMtApiService.OpBuy(tradeParameters.Symbol, tradeParameters.Volume, tradeParameters.Slippage);
+                                tradeID = await _TrenderMtApiService.OpBuy(tradeParameters.Symbol, tradeParameters.Volume, tradeParameters.Slippage,stoploss,takeprofit);
                                 break;
                             case TrenderTradeOperation.OpSell:
-                                tradeID = await _TrenderMtApiService.OpSell(tradeParameters.Symbol, tradeParameters.Volume, tradeParameters.Slippage);
+                                tradeID = await _TrenderMtApiService.OpSell(tradeParameters.Symbol, tradeParameters.Volume, tradeParameters.Slippage, stoploss, takeprofit);
                                 break;
                             case TrenderTradeOperation.OpStayAside:
                                 var datestring = DateTime.Now.ToLongDateString() +" "+ DateTime.Now.ToLongTimeString();
@@ -124,14 +138,14 @@ namespace Trender
                 //if order is loosing close it
                 if (profit<0)
                 {
-                    Console.WriteLine(datestring+":OrderID:{0} closed on loss of :{1}", order.Ticket, profit);
+                    Console.WriteLine(datestring+",OrderID:{0} closed on loss of :{1}", order.Ticket, profit);
                     await _TrenderMtApiService.CloseTrade(order.Ticket, tradeparameters.Slippage);
                 }
 
                 //if order is making profit after commision is deducted close it
-                if ((profit-commision)>0)
+                if ((profit+commision)>0)
                 {
-                    Console.WriteLine(datestring + ":OrderID:{0} closed on gross profit of :{1},Net profit of {2}", order.Ticket, profit, profit-commision);
+                    Console.WriteLine(datestring + ",OrderID:{0} closed on gross profit of :{1},Net profit of {2}", order.Ticket, profit, profit+commision);
                     await _TrenderMtApiService.CloseTrade(order.Ticket, tradeparameters.Slippage);
                 }
             }
