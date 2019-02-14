@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IServiceLocator", "IService
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrenderTestObjects", "TrenderTestObjects\TrenderTestObjects.csproj", "{80142188-5442-461A-8543-88A839445DB9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrenderTests", "TrenderTests\TrenderTests.csproj", "{10F2A3D3-2317-4225-93AC-1D1F0A01DBC0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{80142188-5442-461A-8543-88A839445DB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80142188-5442-461A-8543-88A839445DB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80142188-5442-461A-8543-88A839445DB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10F2A3D3-2317-4225-93AC-1D1F0A01DBC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10F2A3D3-2317-4225-93AC-1D1F0A01DBC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10F2A3D3-2317-4225-93AC-1D1F0A01DBC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10F2A3D3-2317-4225-93AC-1D1F0A01DBC0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

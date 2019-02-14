@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using MtApi;
 
 namespace Trender
 {
@@ -30,6 +31,14 @@ namespace Trender
         public double StopLoss { get; set; }
         public double Volume { get; set; }
         public int Slippage { get; set; }
+
+        public ENUM_TIMEFRAMES timeframes = ENUM_TIMEFRAMES.PERIOD_M1;
+
+        public TradeParameters(string symbol, ENUM_TIMEFRAMES timeframes)
+        {
+            this.Symbol = symbol;
+            this.timeframes = timeframes;
+        }
 
         public TradeParameters(string Symbol, double Volume, int Slippage)
         {

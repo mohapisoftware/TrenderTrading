@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Resources\TrenderDB.db" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IServiceLocator\IServiceLocator.csproj">
@@ -72,6 +73,7 @@
       <Name>TrenderTasks</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
